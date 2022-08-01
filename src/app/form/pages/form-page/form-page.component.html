@@ -3,7 +3,8 @@
   <form class="form-card__form form" [formGroup]="formGroup">
     <mat-form-field class="form-field" appearance="fill">
       <mat-label class="form-field__label">imię</mat-label>
-      <input class="mat-form-field__input" type="username" formControlName="name" [errorStateMatcher]="matcher" matInput>
+      <input class="mat-form-field__input" type="username" formControlName="name" [errorStateMatcher]="matcher"
+             matInput>
       <mat-error *ngIf="formGroup.controls['name'].hasError('required')">
         Name is <strong>required</strong>
       </mat-error>
@@ -13,7 +14,8 @@
     </mat-form-field>
     <mat-form-field class="form-field" appearance="fill">
       <mat-label class="form-field__label">nazwisko</mat-label>
-      <input class="mat-form-field__input" type="username" formControlName="surname" [errorStateMatcher]="matcher" matInput>
+      <input class="mat-form-field__input" type="username" formControlName="surname" [errorStateMatcher]="matcher"
+             matInput>
       <mat-error *ngIf="formGroup.controls['surname'].hasError('required')">
         Surname is <strong>required</strong>
       </mat-error>
@@ -21,6 +23,20 @@
         Surname is <strong>too short</strong>
       </mat-error>
     </mat-form-field>
-
+    <mat-form-field class="form-field" appearance="fill">
+      <mat-label class="form-field__label">hasło</mat-label>
+      <input class="mat-form-field__input" type="password" formControlName="password" [errorStateMatcher]="matcher"
+             matInput>
+      <mat-error *ngIf="formGroup.controls['password'].hasError('required')">
+        Password is <strong>required</strong>
+      </mat-error>
+      <mat-error *ngIf="formGroup.controls['password'].hasError('minlength') &&
+                        !formGroup.controls['password'].hasError('pattern')">
+        Password is <strong>too short</strong>
+      </mat-error>
+      <mat-error *ngIf="formGroup.controls['password'].hasError('pattern')">
+        Password must contain <strong>capital letter and special symbol</strong>
+      </mat-error>
+    </mat-form-field>
   </form>
 </mat-card>

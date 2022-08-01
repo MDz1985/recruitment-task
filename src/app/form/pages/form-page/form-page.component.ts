@@ -26,7 +26,7 @@ export class FormPageComponent implements OnInit {
     this.formGroup = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       surname: ['', [Validators.required, Validators.minLength(3)]],
-      password: ['', [Validators.required, Validators.minLength(7)]]
+      password: ['', [Validators.required, Validators.minLength(7), Validators.pattern(/(?=.*[@$!%*#?&])(?=.*[A-Z])/)]]
     })
     this.matcher = new FormErrorStateMatcher();
   }
