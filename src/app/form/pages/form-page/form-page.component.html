@@ -1,0 +1,26 @@
+<mat-card class="form-card" *ngIf="formGroup && matcher">
+  <mat-card-title class="form-card__title">Recruitment task</mat-card-title>
+  <form class="form-card__form form" [formGroup]="formGroup">
+    <mat-form-field class="form-field" appearance="fill">
+      <mat-label class="form-field__label">imię</mat-label>
+      <input class="mat-form-field__input" type="username" formControlName="name" [errorStateMatcher]="matcher" matInput>
+      <mat-error *ngIf="formGroup.controls['name'].hasError('required')">
+        Name is <strong>required</strong>
+      </mat-error>
+      <mat-error *ngIf="formGroup.controls['name'].hasError('minlength')">
+        Name is <strong>too short</strong>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="form-field" appearance="fill">
+      <mat-label class="form-field__label">nazwisko</mat-label>
+      <input class="mat-form-field__input" type="username" formControlName="surname" [errorStateMatcher]="matcher" matInput>
+      <mat-error *ngIf="formGroup.controls['surname'].hasError('required')">
+        Surname is <strong>required</strong>
+      </mat-error>
+      <mat-error *ngIf="formGroup.controls['surname'].hasError('minlength')">
+        Surname is <strong>too short</strong>
+      </mat-error>
+    </mat-form-field>
+
+  </form>
+</mat-card>
