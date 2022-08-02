@@ -10,7 +10,9 @@ export class FormErrorStateMatcher
   }
 }
 
-type InputName = 'phone' | 'email' | 'hobby'
+type InputNameType = 'phone' | 'email' | 'hobby';
+type PasswordType = 'password' | 'text';
+type IconVisibilityStatusType = 'visibility' | 'visibility_off'
 
 @Component({
   selector: 'app-form',
@@ -23,6 +25,8 @@ export class FormPageComponent implements OnInit {
   isPhoneVisible: boolean = false;
   isEmailVisible: boolean = false;
   isHobbyVisible: boolean = false;
+  passwordType: PasswordType = 'password';
+  iconVisibilityStatus: IconVisibilityStatusType = 'visibility';
 
 
   constructor(private formBuilder: FormBuilder) {
@@ -40,8 +44,8 @@ export class FormPageComponent implements OnInit {
     this.matcher = new FormErrorStateMatcher();
   }
 
-  addInput(inputName: InputName) {
-    switch (inputName){
+  addInput(inputName: InputNameType) {
+    switch (inputName) {
       case 'phone':
         this.isPhoneVisible = true;
         break;
@@ -52,6 +56,11 @@ export class FormPageComponent implements OnInit {
         this.isHobbyVisible = true;
         break;
     }
+  }
+
+  changePasswordVisibility() {
+    this.passwordType = this.passwordType === 'password' ? 'text' : 'password';
+    this.iconVisibilityStatus = this.passwordType === 'password' ? 'visibility' : 'visibility_off';
   }
 
 }
