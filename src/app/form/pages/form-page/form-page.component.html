@@ -39,7 +39,7 @@
       </mat-error>
     </mat-form-field>
 
-    <mat-form-field class="form-field" appearance="fill">
+    <mat-form-field class="form-field" appearance="fill" *ngIf="isPhoneVisible">
       <mat-label class="form-field__label">telefon</mat-label>
       <input class="mat-form-field__input" type="tel" formControlName="phone" [errorStateMatcher]="matcher"
              matInput>
@@ -47,7 +47,7 @@
         Phone must contains <strong>numbers only</strong> (and may starts with "+")
       </mat-error>
     </mat-form-field>
-    <mat-form-field class="form-field" appearance="fill">
+    <mat-form-field class="form-field" appearance="fill" *ngIf="isEmailVisible">
       <mat-label class="form-field__label">e-mail</mat-label>
       <input class="mat-form-field__input" type="email" formControlName="email" [errorStateMatcher]="matcher"
              matInput>
@@ -55,9 +55,10 @@
         Please enter <strong>valid e-mail</strong>
       </mat-error>
     </mat-form-field>
-    <mat-form-field class="form-field" appearance="fill">
+    <mat-form-field class="form-field" appearance="fill" *ngIf="isHobbyVisible">
       <mat-label class="form-field__label">twoje zainteresowania</mat-label>
-      <input class="mat-form-field__input" #hobby maxlength="100" type="text" formControlName="hobby" [errorStateMatcher]="matcher"
+      <input class="mat-form-field__input" #hobby maxlength="100" type="text" formControlName="hobby"
+             [errorStateMatcher]="matcher"
              matInput>
       <mat-hint align="end">{{hobby.value.length}} / 100</mat-hint>
       <!--todo: THIS VALIDATOR ISN'T NEEDED (INPUT LIMITED), BUT IT IS IN REQUIREMENTS. IT WORKS IF YOU DELETE "maxlength="100"" FROM LINE 60-->
@@ -66,4 +67,22 @@
       </mat-error>-->
     </mat-form-field>
   </form>
+  <button mat-raised-button color="primary" [matMenuTriggerFor]="menu">
+    Dodaj
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="addInput('phone')">
+      <mat-icon>phone</mat-icon>
+      <span>telefon</span>
+    </button>
+    <button mat-menu-item (click)="addInput('email')">
+      <mat-icon>email</mat-icon>
+      <span>e-mail</span>
+    </button>
+    <button mat-menu-item (click)="addInput('hobby')">
+      <mat-icon>star</mat-icon>
+      <span>twoje zainteresowania</span>
+    </button>
+  </mat-menu>
 </mat-card>

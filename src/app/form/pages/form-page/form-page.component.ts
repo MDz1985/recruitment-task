@@ -10,6 +10,8 @@ export class FormErrorStateMatcher
   }
 }
 
+type InputName = 'phone' | 'email' | 'hobby'
+
 @Component({
   selector: 'app-form',
   templateUrl: './form-page.component.html',
@@ -38,5 +40,18 @@ export class FormPageComponent implements OnInit {
     this.matcher = new FormErrorStateMatcher();
   }
 
+  addInput(inputName: InputName) {
+    switch (inputName){
+      case 'phone':
+        this.isPhoneVisible = true;
+        break;
+      case 'email':
+        this.isEmailVisible = true;
+        break;
+      case 'hobby':
+        this.isHobbyVisible = true;
+        break;
+    }
+  }
 
 }
