@@ -18,6 +18,10 @@ export class FormErrorStateMatcher
 export class FormPageComponent implements OnInit {
   formGroup: FormGroup | null = null;
   matcher: FormErrorStateMatcher | null = null;
+  isPhoneVisible: boolean = false;
+  isEmailVisible: boolean = false;
+  isHobbyVisible: boolean = false;
+
 
   constructor(private formBuilder: FormBuilder) {
   }
@@ -26,12 +30,13 @@ export class FormPageComponent implements OnInit {
     this.formGroup = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       surname: ['', [Validators.required, Validators.minLength(3)]],
-      password: ['', [Validators.required, Validators.minLength(7), Validators.pattern(/(?=.*[@$!%*#?&])(?=.*[A-Z])/)]]
-    })
+      password: ['', [Validators.required, Validators.minLength(7), Validators.pattern(/(?=.*[@$!%*#?&])(?=.*[A-Z])/)]],
+      phone: ['', Validators.pattern(/(^[+]?)(?=.*[0-9]$)/)],
+      email: ['', Validators.email],
+      hobby: ['', Validators.maxLength(100)]
+    });
     this.matcher = new FormErrorStateMatcher();
   }
-
-
 
 
 }
