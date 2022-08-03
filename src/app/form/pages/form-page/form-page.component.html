@@ -1,9 +1,9 @@
 <mat-card class="form-card" *ngIf="formGroup && matcher">
-  <mat-card-title class="form-card__title">Recruitment task</mat-card-title>
+  <mat-card-title class="form-card__title">Form</mat-card-title>
   <form class="form-card__form form" [formGroup]="formGroup">
     <mat-form-field class="form-field" appearance="fill">
       <mat-label class="form-field__label">imię</mat-label>
-      <input class="mat-form-field__input" type="username" formControlName="name" [errorStateMatcher]="matcher"
+      <input class="form-field__input" type="username" formControlName="name" [errorStateMatcher]="matcher"
              matInput>
       <mat-error *ngIf="formGroup.controls['name'].hasError('required')">
         Name is <strong>required</strong>
@@ -14,7 +14,7 @@
     </mat-form-field>
     <mat-form-field class="form-field" appearance="fill">
       <mat-label class="form-field__label">nazwisko</mat-label>
-      <input class="mat-form-field__input" type="username" formControlName="surname" [errorStateMatcher]="matcher"
+      <input class="form-field__input" type="username" formControlName="surname" [errorStateMatcher]="matcher"
              matInput>
       <mat-error *ngIf="formGroup.controls['surname'].hasError('required')">
         Surname is <strong>required</strong>
@@ -25,9 +25,10 @@
     </mat-form-field>
     <mat-form-field class="form-field" appearance="fill">
       <mat-label class="form-field__label">hasło</mat-label>
-      <input class="mat-form-field__input" type="{{passwordType}}" formControlName="password" [errorStateMatcher]="matcher"
+      <input class="form-field__input" type="{{passwordType}}" formControlName="password"
+             [errorStateMatcher]="matcher"
              matInput>
-      <mat-icon matSuffix (click)="changePasswordVisibility()">{{iconVisibilityStatus}}</mat-icon>
+      <mat-icon class="form-field__suffix" matSuffix (click)="changePasswordVisibility()">{{iconVisibilityStatus}}</mat-icon>
       <mat-error *ngIf="formGroup.controls['password'].hasError('required')">
         Password is <strong>required</strong>
       </mat-error>
@@ -42,9 +43,10 @@
 
     <mat-form-field class="form-field" appearance="fill" *ngIf="isPhoneVisible">
       <mat-label class="form-field__label">telefon</mat-label>
-      <input class="form-field__input" type="tel" formControlName="phone"
+      <input class="form-field__input" type="tel" formControlName="phone" [errorStateMatcher]="matcher"
              matInput>
-      <mat-slide-toggle class="form-field__slide" color="warn" (change)="changeRequiredStatus('phone')" matSuffix></mat-slide-toggle>
+      <mat-slide-toggle class="form-field__slide" color="primary" (change)="changeRequiredStatus('phone')"
+                        matSuffix></mat-slide-toggle>
       <mat-error *ngIf="formGroup.controls['phone'].hasError('pattern')">
         Phone must contains <strong>numbers only</strong> (and may starts with "+")
       </mat-error>
@@ -54,9 +56,10 @@
     </mat-form-field>
     <mat-form-field class="form-field" appearance="fill" *ngIf="isEmailVisible">
       <mat-label class="form-field__label">e-mail</mat-label>
-      <input class="mat-form-field__input" type="email" formControlName="email" [errorStateMatcher]="matcher"
+      <input class="form-field__input" type="email" formControlName="email" [errorStateMatcher]="matcher"
              matInput>
-      <mat-slide-toggle class="form-field__slide" color="warn" (change)="changeRequiredStatus('email')" matSuffix></mat-slide-toggle>
+      <mat-slide-toggle class="form-field__slide" color="primary" (change)="changeRequiredStatus('email')"
+                        matSuffix></mat-slide-toggle>
       <mat-error *ngIf="formGroup.controls['email'].hasError('email')">
         Please enter <strong>valid e-mail</strong>
       </mat-error>
@@ -66,14 +69,14 @@
     </mat-form-field>
     <mat-form-field class="form-field" appearance="fill" *ngIf="isHobbyVisible">
       <mat-label class="form-field__label">twoje zainteresowania</mat-label>
-      <input class="mat-form-field__input" #hobby maxlength="100" type="text" formControlName="hobby"
-             [errorStateMatcher]="matcher"
-             matInput>
+      <textarea class="form-field__input" #hobby maxlength="100" type="text" formControlName="hobby"
+                [errorStateMatcher]="matcher" matInput>
+      </textarea>
       <mat-hint align="end">{{hobby.value.length}} / 100</mat-hint>
       <!--todo: THIS VALIDATOR ISN'T NEEDED (INPUT LIMITED), BUT IT IS IN REQUIREMENTS. IT WORKS IF YOU DELETE "maxlength="100"" FROM LINE 60-->
-      <!--<mat-error *ngIf="formGroup.controls['hobby'].hasError('maxlength')">
+      <mat-error *ngIf="formGroup.controls['hobby'].hasError('maxlength')">
         Input is too <strong>long</strong>
-      </mat-error>-->
+      </mat-error>
     </mat-form-field>
   </form>
   <button mat-raised-button color="primary" [matMenuTriggerFor]="menu">

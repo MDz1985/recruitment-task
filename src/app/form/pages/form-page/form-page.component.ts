@@ -44,20 +44,20 @@ export class FormPageComponent implements OnInit {
   }
 
   addInput(inputName: InputNameType, event:Event) {
-    switch (inputName) {
-      case 'phone':
-        this.isPhoneVisible = true;
-        break;
-      case 'email':
-        this.isEmailVisible = true;
-        break;
-      case 'hobby':
-        this.isHobbyVisible = true;
-        break;
-    }
-    const target = event.currentTarget as HTMLButtonElement;
-    if (target){
-      target.disabled = true
+    if (event.currentTarget){
+      const target = event.currentTarget as HTMLButtonElement;
+      target.disabled = true;
+      switch (inputName) {
+        case 'phone':
+          this.isPhoneVisible = true;
+          break;
+        case 'email':
+          this.isEmailVisible = true;
+          break;
+        case 'hobby':
+          this.isHobbyVisible = true;
+          break;
+      }
     }
   }
 
