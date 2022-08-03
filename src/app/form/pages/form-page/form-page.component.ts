@@ -1,6 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
+import {
+  IconVisibilityStatusEnum,
+  AdditionalInputNameEnum,
+  passwordValidatorRegex,
+  PasswordTypeEnum,
+  phoneValidatorRegex,
+  InputNameEnum, ErrorCodeEnum, maxHobbyInputLength
+} from '../../models/form.model';
 
 export class FormErrorStateMatcher
   implements ErrorStateMatcher {
@@ -10,10 +18,6 @@ export class FormErrorStateMatcher
   }
 }
 
-type InputNameType = 'phone' | 'email' | 'hobby';
-type PasswordType = 'password' | 'text';
-type IconVisibilityStatusType = 'visibility' | 'visibility_off'
-
 @Component({
   selector: 'app-form',
   templateUrl: './form-page.component.html',
@@ -22,11 +26,12 @@ type IconVisibilityStatusType = 'visibility' | 'visibility_off'
 export class FormPageComponent implements OnInit {
   formGroup: FormGroup | null = null;
   matcher: FormErrorStateMatcher | null = null;
-  isPhoneVisible: boolean = false;
-  isEmailVisible: boolean = false;
-  isHobbyVisible: boolean = false;
-  passwordType: PasswordType = 'password';
-  iconVisibilityStatus: IconVisibilityStatusType = 'visibility';
+  readonly inputName: typeof InputNameEnum = InputNameEnum;
+  readonly additionalInputName: typeof AdditionalInputNameEnum = AdditionalInputNameEnum;
+  readonly errorCode: typeof ErrorCodeEnum = ErrorCodeEnum;
+  readonly maxHobbyInputLength: number = maxHobbyInputLength;
+  passwordType: PasswordTypeEnum = PasswordTypeEnum.password;
+  iconVisibilityStatus: IconVisibilityStatusEnum = IconVisibilityStatusEnum.visibility;
 
   constructor(private formBuilder: FormBuilder) {
   }
@@ -35,43 +40,44 @@ export class FormPageComponent implements OnInit {
     this.formGroup = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       surname: ['', [Validators.required, Validators.minLength(3)]],
-      password: ['', [Validators.required, Validators.minLength(7), Validators.pattern(/(?=.*[@$!%*#?&])(?=.*[A-Z])/)]],
-      phone: ['', [Validators.pattern(/(^[+]?)(?=.*[0-9]$)/)]],
-      email: ['', Validators.email],
-      hobby: ['', Validators.maxLength(100)]
+      password: ['', [Validators.required, Validators.minLength(7), Validators.pattern(passwordValidatorRegex)]],
     });
     this.matcher = new FormErrorStateMatcher();
   }
 
-  addInput(inputName: InputNameType, event:Event) {
-    if (event.currentTarget){
+  addInput(inputName: AdditionalInputNameEnum, event: Event): void {
+    if (event.currentTarget && this.formGroup) {
       const target = event.currentTarget as HTMLButtonElement;
       target.disabled = true;
       switch (inputName) {
-        case 'phone':
-          this.isPhoneVisible = true;
+        case AdditionalInputNameEnum.phone:
+          this.formGroup.addControl(AdditionalInputNameEnum.phone, new FormControl('', [Validators.pattern(phoneValidatorRegex)]));
           break;
-        case 'email':
-          this.isEmailVisible = true;
+        case AdditionalInputNameEnum.email:
+          this.formGroup.addControl(AdditionalInputNameEnum.email, new FormControl('', [Validators.email]));
           break;
-        case 'hobby':
-          this.isHobbyVisible = true;
+        case AdditionalInputNameEnum.hobby:
+          this.formGroup.addControl(AdditionalInputNameEnum.hobby, new FormControl('', [Validators.maxLength(100)]));
+          break;
+        default:
           break;
       }
     }
   }
 
-  changePasswordVisibility() {
-    this.passwordType = this.passwordType === 'password' ? 'text' : 'password';
-    this.iconVisibilityStatus = this.passwordType === 'password' ? 'visibility' : 'visibility_off';
+  changePasswordVisibility(): void {
+    this.passwordType = this.passwordType === PasswordTypeEnum.password ? PasswordTypeEnum.text : PasswordTypeEnum.password;
+    this.iconVisibilityStatus =
+      this.passwordType === PasswordTypeEnum.text ? IconVisibilityStatusEnum.visibility_off : IconVisibilityStatusEnum.visibility;
   }
 
-  changeRequiredStatus(formControlName: InputNameType) {
+  changeRequiredStatus(formControlName: AdditionalInputNameEnum): void {
     if (this.formGroup) {
-      this.formGroup.controls[formControlName].hasValidator(Validators.required) ?
-        this.formGroup.controls[formControlName].removeValidators(Validators.required) :
-        this.formGroup.controls[formControlName].addValidators(Validators.required);
-      this.formGroup.controls[formControlName].updateValueAndValidity();
+      const formControl = this.formGroup.controls[formControlName];
+      formControl.hasValidator(Validators.required) ?
+        formControl.removeValidators(Validators.required) :
+        formControl.addValidators(Validators.required);
+      formControl.updateValueAndValidity();
     }
   }
 

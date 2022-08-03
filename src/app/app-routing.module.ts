@@ -5,17 +5,17 @@ const routes: Routes = [
   {
     path: 'form',
     loadChildren: () => import('./form/form.module')
-      .then(result => result.FormModule)
+      .then(result => result.FormModule),
   },
   {
     path: '',
     redirectTo: 'form',
-    pathMatch: 'full'
+    pathMatch: 'full',
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {useHash: true})],
   exports: [RouterModule]
 })
 export class AppRoutingModule {
