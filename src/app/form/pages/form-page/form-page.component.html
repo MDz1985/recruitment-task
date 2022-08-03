@@ -42,18 +42,26 @@
 
     <mat-form-field class="form-field" appearance="fill" *ngIf="isPhoneVisible">
       <mat-label class="form-field__label">telefon</mat-label>
-      <input class="mat-form-field__input" type="tel" formControlName="phone" [errorStateMatcher]="matcher"
+      <input class="form-field__input" type="tel" formControlName="phone"
              matInput>
+      <mat-slide-toggle class="form-field__slide" color="warn" (change)="changeRequiredStatus('phone')" matSuffix></mat-slide-toggle>
       <mat-error *ngIf="formGroup.controls['phone'].hasError('pattern')">
         Phone must contains <strong>numbers only</strong> (and may starts with "+")
+      </mat-error>
+      <mat-error *ngIf="formGroup.controls['phone'].hasError('required')">
+        Phone is <strong>required</strong>
       </mat-error>
     </mat-form-field>
     <mat-form-field class="form-field" appearance="fill" *ngIf="isEmailVisible">
       <mat-label class="form-field__label">e-mail</mat-label>
       <input class="mat-form-field__input" type="email" formControlName="email" [errorStateMatcher]="matcher"
              matInput>
+      <mat-slide-toggle class="form-field__slide" color="warn" (change)="changeRequiredStatus('email')" matSuffix></mat-slide-toggle>
       <mat-error *ngIf="formGroup.controls['email'].hasError('email')">
         Please enter <strong>valid e-mail</strong>
+      </mat-error>
+      <mat-error *ngIf="formGroup.controls['email'].hasError('required')">
+        E-mail is <strong>required</strong>
       </mat-error>
     </mat-form-field>
     <mat-form-field class="form-field" appearance="fill" *ngIf="isHobbyVisible">
@@ -73,15 +81,15 @@
     <mat-icon>more_vert</mat-icon>
   </button>
   <mat-menu #menu="matMenu">
-    <button mat-menu-item (click)="addInput('phone')">
+    <button mat-menu-item (click)="addInput('phone', $event)">
       <mat-icon>phone</mat-icon>
       <span>telefon</span>
     </button>
-    <button mat-menu-item (click)="addInput('email')">
+    <button mat-menu-item (click)="addInput('email', $event)">
       <mat-icon>email</mat-icon>
       <span>e-mail</span>
     </button>
-    <button mat-menu-item (click)="addInput('hobby')">
+    <button mat-menu-item (click)="addInput('hobby', $event)">
       <mat-icon>star</mat-icon>
       <span>twoje zainteresowania</span>
     </button>

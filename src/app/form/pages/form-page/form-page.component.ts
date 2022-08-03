@@ -28,7 +28,6 @@ export class FormPageComponent implements OnInit {
   passwordType: PasswordType = 'password';
   iconVisibilityStatus: IconVisibilityStatusType = 'visibility';
 
-
   constructor(private formBuilder: FormBuilder) {
   }
 
@@ -37,14 +36,14 @@ export class FormPageComponent implements OnInit {
       name: ['', [Validators.required, Validators.minLength(3)]],
       surname: ['', [Validators.required, Validators.minLength(3)]],
       password: ['', [Validators.required, Validators.minLength(7), Validators.pattern(/(?=.*[@$!%*#?&])(?=.*[A-Z])/)]],
-      phone: ['', Validators.pattern(/(^[+]?)(?=.*[0-9]$)/)],
+      phone: ['', [Validators.pattern(/(^[+]?)(?=.*[0-9]$)/)]],
       email: ['', Validators.email],
       hobby: ['', Validators.maxLength(100)]
     });
     this.matcher = new FormErrorStateMatcher();
   }
 
-  addInput(inputName: InputNameType) {
+  addInput(inputName: InputNameType, event:Event) {
     switch (inputName) {
       case 'phone':
         this.isPhoneVisible = true;
@@ -56,11 +55,24 @@ export class FormPageComponent implements OnInit {
         this.isHobbyVisible = true;
         break;
     }
+    const target = event.currentTarget as HTMLButtonElement;
+    if (target){
+      target.disabled = true
+    }
   }
 
   changePasswordVisibility() {
     this.passwordType = this.passwordType === 'password' ? 'text' : 'password';
     this.iconVisibilityStatus = this.passwordType === 'password' ? 'visibility' : 'visibility_off';
+  }
+
+  changeRequiredStatus(formControlName: InputNameType) {
+    if (this.formGroup) {
+      this.formGroup.controls[formControlName].hasValidator(Validators.required) ?
+        this.formGroup.controls[formControlName].removeValidators(Validators.required) :
+        this.formGroup.controls[formControlName].addValidators(Validators.required);
+      this.formGroup.controls[formControlName].updateValueAndValidity();
+    }
   }
 
 }
