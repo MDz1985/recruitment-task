@@ -16,6 +16,11 @@
     cursor: pointer;
   }
 
+  .menu-button {
+    width: min-content;
+    margin-bottom: 10px;
+  }
+
   @media (max-width: 500px) {
     min-width: 0;
     width: 100%;

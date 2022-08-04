@@ -81,4 +81,11 @@ export class FormPageComponent implements OnInit {
     }
   }
 
+  onSubmit(): void {
+    console.log(this.formGroup)
+    if (!this.formGroup?.invalid) {
+      console.log(this.formGroup)
+    }
+  }
+
 }
